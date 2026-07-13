@@ -67,10 +67,10 @@ dotnet run --project src\LibrarySeatReservation.Web
 
 ## 当前阶段
 
-📌 **Sprint 1 ✅ 完成 — 用户端主链路已闭环，`dotnet build` 通过。**
+📌 **Sprint 2 ✅ 完成 — 管理端 4 页 + 权限控制 + 状态回流，`dotnet build` 通过。**
 
 当前仓库包含：
-- ✅ 全部需求与设计文档（docs/01 ~ docs/13）
+- ✅ 全部需求与设计文档（docs/01 ~ docs/14）
 - ✅ 9 页静态 HTML 原型（prototype/static-v1/）
 - ✅ 审计与复核报告（docs/11 ~ docs/13）
 - ✅ ASP.NET Core MVC 项目代码（src/LibrarySeatReservation.Web/）
@@ -86,7 +86,9 @@ dotnet run --project src\LibrarySeatReservation.Web
 - ✅ P03 座位详情 — 座位信息卡 + 日期切换 + 时段空闲/已满提示
 - ✅ P04 预约提交 — 预填参数 + 冲突检测 + 事务写入
 - ✅ P05 我的预约 — 列表（含已完成/已取消） + 取消确认
-- ✅ **Sprint 2（管理端）骨架已预置**：登录 + 预约管理 + 座位管理 + 统计页面，等待完整业务逻辑接入
+- ✅ **Sprint 2 ✅ 管理端完整闭环**：登录→预约管理（状态筛选+标记完成）→座位管理（CRUD+状态切换）→统计（DB 实时数据）
+- ✅ `[AdminOnly]` 权限过滤器（`AdminOnlyAttribute`），未登录自动跳转 /Admin/Login
+- ✅ `_AdminLayout` 共享布局（深色导航 + container-fluid + 退出按钮）
 
 ---
 
@@ -112,6 +114,16 @@ dotnet ef database update --project src\LibrarySeatReservation.Web
 5. 点击任意空闲座位 → P03 详情，查看时段空闲/已满状态
 6. 选择日期 + 空闲时段 → "提交预约" → P04 确认 → 跳转 P05 我的预约
 7. 在 P05 查看新预约，点击"取消"并确认 → 状态变为"已取消"
+
+**管理端演示路径：**
+```
+1. 访问 /Admin/Login → 管理员登录
+2. 输入 admin / admin123 → 进入 P07 预约管理
+3. 按状态筛选预约，点击"标记完成"
+4. 导航到 P08 座位管理 → 新增/编辑/删除座位 + 切换状态
+5. 导航到 P09 统计页 → 查看汇总数据和时段分布
+6. 切换到用户端，确认管理端操作已回流（标记完成/座位状态变更可见）
+7. 点击"退出" → 退出登录
 ```
 
 ---
@@ -129,7 +141,7 @@ dotnet ef database update --project src\LibrarySeatReservation.Web
 
 - [x] **Sprint 0** — 项目骨架、Entity、DbContext、Seed Data、Service 骨架、Controller 骨架、dotnet build
 - [x] **Sprint 1** — 用户端 5 页面完整开发（首页、座位列表、座位详情、预约提交、我的预约 + 取消）
-- [ ] **Sprint 2** — 管理端 4 页面（登录、预约管理、座位管理、统计页）【计划中】
+- [x] **Sprint 2** — 管理端 4 页面（登录、预约管理、座位管理、统计页）+ 权限控制 + 布局统一 + 状态回流
 - [ ] **Sprint 3** — 联调、Bug 修复、部署验收【计划中】
 
 ---
@@ -142,8 +154,6 @@ dotnet ef database update --project src\LibrarySeatReservation.Web
 - 无分页（演示数据量小）
 - 不做移动端完整适配（管理端仅桌面）
 - 管理员仅一个固定账号
-- 管理端无 `_AdminLayout` 共享布局（Sprint 2 偿还）
-- 管理端无 `AdminOnlyFilter` 过滤器（Sprint 2 偿还）
 - 早高峰时段并发预约无锁保护（课堂数据量极低）
 
 ---
