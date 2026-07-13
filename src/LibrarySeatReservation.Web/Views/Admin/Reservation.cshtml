@@ -6,10 +6,10 @@
     <div class="col-auto">
         <label class="form-label small text-muted">状态</label>
         <select name="status" class="form-select" onchange="this.form.submit()">
-            <option value="">全部</option>
-            <option value="0">已预约</option>
-            <option value="1">已完成</option>
-            <option value="2">已取消</option>
+            <option value="" selected="@(ViewBag.StatusFilter == null)">全部</option>
+            <option value="0" selected="@(ViewBag.StatusFilter is 0)">已预约</option>
+            <option value="1" selected="@(ViewBag.StatusFilter is 1)">已完成</option>
+            <option value="2" selected="@(ViewBag.StatusFilter is 2)">已取消</option>
         </select>
     </div>
     <div class="col-auto">

@@ -1,12 +1,17 @@
 @model SeatListViewModel
 @{ ViewData["Title"] = "座位列表"; }
 
+<style>
+    .seat-card { transition: transform .15s, box-shadow .15s; }
+    .seat-card:hover { transform: translateY(-2px); box-shadow: 0 .25rem .75rem rgba(0,0,0,.1) !important; }
+</style>
+
 <h4 class="fw-semibold mb-3">座位列表</h4>
 
 <form method="get" class="row g-2 mb-3 align-items-end">
-    <div class="col-auto">
+    <div class="col-6 col-sm-auto">
         <label class="form-label small text-muted">区域</label>
-        <select name="area" class="form-select">
+        <select name="area" class="form-select form-select-sm">
             <option value="">全部区域</option>
             @foreach (var a in Model.Areas)
             {
@@ -14,9 +19,9 @@
             }
         </select>
     </div>
-    <div class="col-auto">
+    <div class="col-6 col-sm-auto">
         <label class="form-label small text-muted">楼层</label>
-        <select name="floor" class="form-select">
+        <select name="floor" class="form-select form-select-sm">
             <option value="">全部楼层</option>
             @foreach (var f in Model.Floors)
             {
@@ -24,7 +29,7 @@
             }
         </select>
     </div>
-    <div class="col-auto d-flex gap-1">
+    <div class="col-12 col-sm-auto d-flex gap-1">
         <button type="submit" class="btn btn-outline-primary btn-sm">筛选</button>
         <a class="btn btn-outline-secondary btn-sm" asp-controller="Seat" asp-action="Index">重置</a>
     </div>
@@ -38,7 +43,7 @@
         @foreach (var seat in Model.Seats)
         {
             <div class="col-6 col-md-4 col-lg-3">
-                <a class="card h-100 shadow-sm text-decoration-none" asp-controller="Seat" asp-action="Detail" asp-route-id="@seat.Id">
+                <a class="card h-100 shadow-sm text-decoration-none seat-card" asp-controller="Seat" asp-action="Detail" asp-route-id="@seat.Id">
                     <div class="card-body">
                         <h6 class="fw-bold mb-1">@seat.SeatNumber</h6>
                         <p class="small text-muted mb-2">@seat.Area · @seat.Floor</p>

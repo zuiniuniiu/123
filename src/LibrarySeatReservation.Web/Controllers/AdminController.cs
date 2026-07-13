@@ -28,6 +28,7 @@ public class AdminController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(AdminLoginViewModel model)
     {
         if (await _adminService.LoginAsync(model.Username, model.Password))
@@ -42,6 +43,7 @@ public class AdminController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Logout()
     {
         HttpContext.Session.Remove("IsAdmin");
@@ -52,12 +54,14 @@ public class AdminController : Controller
     [AdminOnly]
     public async Task<IActionResult> Reservation(int? status)
     {
+        ViewBag.StatusFilter = status;
         var reservations = await _reservationService.GetAllAsync(status);
         return View(reservations);
     }
 
     [AdminOnly]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> MarkCompleted(int id)
     {
         var success = await _reservationService.MarkCompletedAsync(id);
@@ -75,6 +79,7 @@ public class AdminController : Controller
 
     [AdminOnly]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> AddSeat(Seat seat)
     {
         await _adminService.AddSeatAsync(seat);
@@ -84,6 +89,7 @@ public class AdminController : Controller
 
     [AdminOnly]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> EditSeat(Seat seat)
     {
         await _adminService.UpdateSeatAsync(seat);
@@ -93,6 +99,7 @@ public class AdminController : Controller
 
     [AdminOnly]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteSeat(int id)
     {
         var (success, message) = await _adminService.DeleteSeatAsync(id);
@@ -103,6 +110,7 @@ public class AdminController : Controller
 
     [AdminOnly]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ToggleStatus(int id)
     {
         var success = await _adminService.ToggleSeatStatusAsync(id);

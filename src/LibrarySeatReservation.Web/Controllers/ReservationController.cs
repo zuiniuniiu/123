@@ -45,6 +45,7 @@ public class ReservationController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ReservationCreateViewModel model)
     {
         var userName = HttpContext.Session.GetString("CurrentUser") ?? "张三";
@@ -83,6 +84,7 @@ public class ReservationController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id)
     {
         var userName = HttpContext.Session.GetString("CurrentUser") ?? "张三";

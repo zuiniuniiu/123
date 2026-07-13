@@ -12,6 +12,7 @@
 </div>
 
 <form asp-controller="Reservation" asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
     <input type="hidden" name="SeatId" value="@Model.SeatId" />
     <div class="mb-2">
         <label class="form-label small">日期</label>
@@ -22,7 +23,8 @@
         @foreach (var slot in Model.TimeSlots)
         {
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="TimeSlot" value="@slot" id="slot_@slot" required />
+                <input class="form-check-input" type="radio" name="TimeSlot" value="@slot" id="slot_@slot"
+                       checked="@(Model.TimeSlot == slot)" required />
                 <label class="form-check-label small" for="slot_@slot">@slot</label>
             </div>
         }

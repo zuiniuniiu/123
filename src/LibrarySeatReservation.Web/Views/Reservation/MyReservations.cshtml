@@ -10,12 +10,13 @@
 {
     <div class="table-responsive">
         <table class="table table-hover small">
-            <thead><tr><th>座位</th><th>日期</th><th>时段</th><th>状态</th><th></th></tr></thead>
+            <thead class="table-light"><tr><th>座位</th><th>区域</th><th>日期</th><th>时段</th><th>状态</th><th></th></tr></thead>
             <tbody>
                 @foreach (var r in Model.Reservations)
                 {
                     <tr>
                         <td>@r.Seat?.SeatNumber</td>
+                        <td>@r.Seat?.Area</td>
                         <td>@r.ReservationDate.ToString("MM-dd")</td>
                         <td>@r.TimeSlot</td>
                         <td>
@@ -35,7 +36,7 @@
                         <td>
                             @if (r.Status == LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Active)
                             {
-                                <form asp-controller="Reservation" asp-action="Cancel" method="post" onsubmit="return confirm('确定取消？')">
+                                <form asp-controller="Reservation" asp-action="Cancel" method="post" onsubmit="return confirm('确定取消该预约？')">
                                     <input type="hidden" name="id" value="@r.Id" />
                                     <button class="btn btn-sm btn-outline-danger">取消</button>
                                 </form>
@@ -49,5 +50,5 @@
 }
 else
 {
-    <div class="alert alert-info">还没有预约记录</div>
+    <div class="alert alert-info">还没有预约记录，<a asp-controller="Seat" asp-action="Index" class="alert-link">去预约 →</a></div>
 }
