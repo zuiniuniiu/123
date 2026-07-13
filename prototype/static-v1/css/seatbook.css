@@ -1,0 +1,559 @@
+/* ============================================================
+   SeatBook - 图书馆座位预约系统 · 自定义样式
+   视觉方向：校园安静学习感 + 轻量后台感
+   主色：#2B6CB0
+   ============================================================ */
+
+/* === 品牌色彩覆写 === */
+:root {
+  --seatbook-primary: #2B6CB0;
+  --seatbook-primary-hover: #1A4F8B;
+  --seatbook-primary-light: #EBF4FF;
+  --seatbook-success: #38A169;
+  --seatbook-warning: #D69E2E;
+  --seatbook-danger: #E53E3E;
+  --seatbook-info: #3182CE;
+  --seatbook-muted: #A0AEC0;
+  --seatbook-maintenance: #A0AEC0;
+  --seatbook-text: #2D3748;
+  --seatbook-text-secondary: #718096;
+  --seatbook-border: #E2E8F0;
+  --seatbook-bg: #F7FAFC;
+  --seatbook-white: #FFFFFF;
+  --seatbook-card-radius: 8px;
+  --seatbook-btn-radius: 6px;
+  --seatbook-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+body {
+  font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: var(--seatbook-text);
+  background-color: var(--seatbook-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === 导航栏 === */
+.navbar-seatbook {
+  background-color: var(--seatbook-primary) !important;
+  min-height: 56px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.navbar-seatbook .navbar-brand {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.125rem;
+  letter-spacing: 0.5px;
+}
+.navbar-seatbook .navbar-brand:hover {
+  color: rgba(255,255,255,0.9);
+}
+.navbar-seatbook .nav-link {
+  color: rgba(255,255,255,0.85) !important;
+  font-size: 0.9375rem;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: 4px;
+  transition: background-color 0.15s;
+}
+.navbar-seatbook .nav-link:hover,
+.navbar-seatbook .nav-link.active {
+  color: #fff !important;
+  background-color: rgba(255,255,255,0.15);
+}
+.navbar-seatbook .user-switch {
+  min-width: 100px;
+}
+
+/* === 管理端导航 === */
+.admin-nav {
+  background-color: var(--seatbook-primary) !important;
+  min-height: 56px;
+}
+.admin-nav .nav-link {
+  color: rgba(255,255,255,0.8) !important;
+  font-size: 0.9375rem;
+  padding: 0.5rem 1rem !important;
+  border-radius: 4px;
+  margin: 0 2px;
+}
+.admin-nav .nav-link:hover,
+.admin-nav .nav-link.active {
+  color: #fff !important;
+  background-color: rgba(255,255,255,0.18);
+}
+.admin-nav .navbar-brand {
+  color: #fff;
+  font-weight: 700;
+}
+.admin-nav .logout-btn {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  transition: background-color 0.15s;
+}
+.admin-nav .logout-btn:hover {
+  color: #fff;
+  background-color: rgba(255,255,255,0.15);
+}
+
+/* === 用户端手机容器 === */
+.mobile-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 32px;
+  min-height: 100vh;
+}
+
+/* === 页面标题 === */
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--seatbook-text);
+  margin-bottom: 0.5rem;
+}
+.page-subtitle {
+  font-size: 0.9375rem;
+  color: var(--seatbook-text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+/* === 卡片 === */
+.card-seatbook {
+  background: var(--seatbook-white);
+  border: none;
+  border-radius: var(--seatbook-card-radius);
+  box-shadow: var(--seatbook-shadow);
+  transition: box-shadow 0.15s;
+  overflow: hidden;
+}
+.card-seatbook:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+.card-seatbook .card-body {
+  padding: 16px;
+}
+
+/* === 推荐座位卡片（首页） === */
+.recommend-card {
+  background: var(--seatbook-white);
+  border: 1px solid var(--seatbook-border);
+  border-radius: var(--seatbook-card-radius);
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-width: 140px;
+  box-shadow: var(--seatbook-shadow);
+}
+.recommend-card:hover {
+  border-color: var(--seatbook-primary);
+  box-shadow: 0 2px 8px rgba(43, 108, 176, 0.15);
+}
+.recommend-card .seat-num {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--seatbook-text);
+}
+.recommend-card .seat-area {
+  font-size: 0.8125rem;
+  color: var(--seatbook-text-secondary);
+}
+.recommend-card .seat-status {
+  margin-top: 8px;
+}
+
+/* === 座位卡片（列表页） === */
+.seat-card {
+  background: var(--seatbook-white);
+  border: 1px solid var(--seatbook-border);
+  border-radius: var(--seatbook-card-radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: var(--seatbook-shadow);
+}
+.seat-card:hover {
+  border-color: var(--seatbook-primary);
+  box-shadow: 0 2px 8px rgba(43, 108, 176, 0.12);
+}
+.seat-card .seat-number {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--seatbook-text);
+}
+.seat-card .seat-area-text {
+  font-size: 0.875rem;
+  color: var(--seatbook-text-secondary);
+}
+
+/* === 状态标签 === */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+.status-badge .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-badge-available {
+  background-color: #C6F6D5;
+  color: #22543D;
+}
+.status-badge-available .dot { background-color: #38A169; }
+.status-badge-booked {
+  background-color: #FEFCBF;
+  color: #744210;
+}
+.status-badge-booked .dot { background-color: #D69E2E; }
+.status-badge-maintenance {
+  background-color: #EDF2F7;
+  color: #4A5568;
+}
+.status-badge-maintenance .dot { background-color: #A0AEC0; }
+.status-badge-completed {
+  background-color: #BEE3F8;
+  color: #2A4365;
+}
+.status-badge-completed .dot { background-color: #3182CE; }
+.status-badge-cancelled {
+  background-color: #FED7D7;
+  color: #822727;
+}
+.status-badge-cancelled .dot { background-color: #E53E3E; }
+
+/* === 按钮 === */
+.btn-seatbook {
+  background-color: var(--seatbook-primary);
+  border-color: var(--seatbook-primary);
+  color: #fff;
+  border-radius: var(--seatbook-btn-radius);
+  padding: 10px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.btn-seatbook:hover {
+  background-color: var(--seatbook-primary-hover);
+  border-color: var(--seatbook-primary-hover);
+  color: #fff;
+}
+.btn-seatbook:disabled {
+  background-color: #CBD5E0;
+  border-color: #CBD5E0;
+  color: #A0AEC0;
+  cursor: not-allowed;
+}
+.btn-seatbook-success {
+  background-color: var(--seatbook-success);
+  border-color: var(--seatbook-success);
+  color: #fff;
+  border-radius: var(--seatbook-btn-radius);
+  padding: 8px 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.btn-seatbook-success:hover {
+  background-color: #2F855A;
+  border-color: #2F855A;
+  color: #fff;
+}
+.btn-seatbook-danger {
+  background-color: var(--seatbook-danger);
+  border-color: var(--seatbook-danger);
+  color: #fff;
+  border-radius: var(--seatbook-btn-radius);
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.btn-seatbook-danger:hover {
+  background-color: #C53030;
+  border-color: #C53030;
+  color: #fff;
+}
+.btn-seatbook-outline {
+  background: transparent;
+  border: 1px solid var(--seatbook-primary);
+  color: var(--seatbook-primary);
+  border-radius: var(--seatbook-btn-radius);
+  padding: 10px 24px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.btn-seatbook-outline:hover {
+  background-color: var(--seatbook-primary-light);
+}
+.btn-seatbook-sm {
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+}
+
+/* === 表单 === */
+.form-control-seatbook {
+  border: 1px solid var(--seatbook-border);
+  border-radius: var(--seatbook-btn-radius);
+  padding: 8px 12px;
+  font-size: 1rem;
+  height: 40px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.form-control-seatbook:focus {
+  border-color: var(--seatbook-primary);
+  box-shadow: 0 0 0 2px rgba(43, 108, 176, 0.2);
+}
+.form-label-seatbook {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--seatbook-text);
+  margin-bottom: 4px;
+}
+
+/* === 管理端表格 === */
+.table-seatbook {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.table-seatbook thead th {
+  background-color: var(--seatbook-bg);
+  color: var(--seatbook-text);
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--seatbook-border);
+  white-space: nowrap;
+}
+.table-seatbook tbody td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--seatbook-border);
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+.table-seatbook tbody tr:nth-child(even) {
+  background-color: var(--seatbook-bg);
+}
+.table-seatbook tbody tr:hover {
+  background-color: var(--seatbook-primary-light);
+}
+
+/* === 统计卡片 === */
+.stat-card {
+  background: var(--seatbook-white);
+  border: 1px solid var(--seatbook-border);
+  border-radius: var(--seatbook-card-radius);
+  padding: 20px;
+  text-align: center;
+  box-shadow: var(--seatbook-shadow);
+}
+.stat-card .stat-number {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--seatbook-primary);
+  line-height: 1.2;
+}
+.stat-card .stat-label {
+  font-size: 0.8125rem;
+  color: var(--seatbook-text-secondary);
+  margin-top: 4px;
+}
+
+/* === 欢迎区域（首页） === */
+.welcome-section {
+  padding: 8px 0;
+}
+.welcome-section h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--seatbook-text);
+}
+.welcome-section .greeting {
+  font-size: 0.9375rem;
+  color: var(--seatbook-text-secondary);
+}
+
+/* === 空状态 === */
+.empty-state {
+  padding: 48px 16px;
+  text-align: center;
+}
+.empty-state .empty-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.4;
+}
+.empty-state .empty-text {
+  font-size: 0.9375rem;
+  color: var(--seatbook-text-secondary);
+  margin-bottom: 16px;
+}
+
+/* === 信息行（详情页） === */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--seatbook-border);
+}
+.info-row:last-child {
+  border-bottom: none;
+}
+.info-row .label {
+  font-size: 0.875rem;
+  color: var(--seatbook-text-secondary);
+}
+.info-row .value {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--seatbook-text);
+}
+
+/* === 预约记录卡片（我的预约） === */
+.reservation-card {
+  background: var(--seatbook-white);
+  border: 1px solid var(--seatbook-border);
+  border-radius: var(--seatbook-card-radius);
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  box-shadow: var(--seatbook-shadow);
+}
+.reservation-card .res-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.reservation-card .res-seat {
+  font-weight: 600;
+  font-size: 1rem;
+}
+.reservation-card .res-area {
+  font-size: 0.8125rem;
+  color: var(--seatbook-text-secondary);
+}
+.reservation-card .res-time {
+  font-size: 0.875rem;
+  color: var(--seatbook-text-secondary);
+  margin-bottom: 8px;
+}
+.reservation-card .res-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid var(--seatbook-border);
+}
+
+/* === 管理后台内容区 === */
+.admin-content {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.admin-content .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.admin-content .page-header h4 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* === 后台统计时段表格 === */
+.time-slot-table th,
+.time-slot-table td {
+  padding: 10px 16px;
+  font-size: 0.875rem;
+}
+.time-slot-table .bar-cell {
+  min-width: 120px;
+}
+.time-slot-table .bar {
+  height: 20px;
+  background-color: var(--seatbook-primary);
+  border-radius: 4px;
+  opacity: 0.7;
+  min-width: 4px;
+  transition: width 0.3s;
+}
+
+/* === 确认对话框 === */
+.modal-seatbook .modal-content {
+  border: none;
+  border-radius: var(--seatbook-card-radius);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.modal-seatbook .modal-header {
+  border-bottom: 1px solid var(--seatbook-border);
+  padding: 16px 20px;
+}
+.modal-seatbook .modal-body {
+  padding: 20px;
+  font-size: 0.9375rem;
+}
+.modal-seatbook .modal-footer {
+  border-top: 1px solid var(--seatbook-border);
+  padding: 12px 20px;
+}
+
+/* === 成功提示条 === */
+.alert-seatbook-success {
+  background-color: #C6F6D5;
+  color: #22543D;
+  border: none;
+  border-radius: var(--seatbook-btn-radius);
+  font-size: 0.9375rem;
+}
+.alert-seatbook-error {
+  background-color: #FED7D7;
+  color: #822727;
+  border: none;
+  border-radius: var(--seatbook-btn-radius);
+  font-size: 0.9375rem;
+}
+
+/* === 筛选条 === */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.filter-bar .form-select {
+  border: 1px solid var(--seatbook-border);
+  border-radius: var(--seatbook-btn-radius);
+  font-size: 0.875rem;
+  padding: 6px 12px;
+  max-width: 180px;
+}
+
+/* === 底部留白 === */
+.bottom-spacer {
+  height: 24px;
+}
+
+/* === 桌面端通用调整 === */
+@media (min-width: 768px) {
+  .mobile-container {
+    max-width: 720px;
+    padding: 24px;
+  }
+  .recommend-card {
+    min-width: 160px;
+  }
+}
+@media (min-width: 992px) {
+  .mobile-container {
+    max-width: 960px;
+  }
+}
