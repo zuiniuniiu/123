@@ -67,12 +67,12 @@ dotnet run --project src\LibrarySeatReservation.Web
 
 ## 当前阶段
 
-📌 **Sprint 2 ✅ 完成 — 管理端 4 页 + 权限控制 + 状态回流，`dotnet build` 通过。**
+📌 **Sprint 3 ✅ 完成 — 功能完善、异常处理与体验优化已闭环，`dotnet build` 通过。**
 
 当前仓库包含：
-- ✅ 全部需求与设计文档（docs/01 ~ docs/14）
+- ✅ 全部需求与设计文档（docs/01 ~ docs/15）
 - ✅ 9 页静态 HTML 原型（prototype/static-v1/）
-- ✅ 审计与复核报告（docs/11 ~ docs/13）
+- ✅ 审计与复核报告（docs/11 ~ docs/15）
 - ✅ ASP.NET Core MVC 项目代码（src/LibrarySeatReservation.Web/）
 - ✅ 4 个 Entity + 2 个枚举
 - ✅ AppDbContext + DbInitializer（Seed Data）
@@ -89,6 +89,7 @@ dotnet run --project src\LibrarySeatReservation.Web
 - ✅ **Sprint 2 ✅ 管理端完整闭环**：登录→预约管理（状态筛选+标记完成）→座位管理（CRUD+状态切换）→统计（DB 实时数据）
 - ✅ `[AdminOnly]` 权限过滤器（`AdminOnlyAttribute`），未登录自动跳转 /Admin/Login
 - ✅ `_AdminLayout` 共享布局（深色导航 + container-fluid + 退出按钮）
+- ✅ **Sprint 3 ✅ 功能完善与体验优化**：CSRF 防护全覆盖、状态徽标统一、导航下拉完整、ModelState 验证、原型修复
 
 ---
 
@@ -142,19 +143,18 @@ dotnet ef database update --project src\LibrarySeatReservation.Web
 - [x] **Sprint 0** — 项目骨架、Entity、DbContext、Seed Data、Service 骨架、Controller 骨架、dotnet build
 - [x] **Sprint 1** — 用户端 5 页面完整开发（首页、座位列表、座位详情、预约提交、我的预约 + 取消）
 - [x] **Sprint 2** — 管理端 4 页面（登录、预约管理、座位管理、统计页）+ 权限控制 + 布局统一 + 状态回流
-- [ ] **Sprint 3** — 联调、Bug 修复、部署验收【计划中】
+- [x] **Sprint 3** — 功能完善与体验优化（CSRF 防护全覆盖、P04/P06 ModelState 验证、空状态链接、radio 预选、状态筛选记忆、card hover、手机适配、Program.cs Migration 对齐）
 
 ---
 
 ## 已知限制
 
-- 密码明文存储（课堂项目）
-- 无 CSRF 防护（课堂项目）
+- 密码明文存储（课堂项目，建议后续使用 ASP.NET Core Identity）
 - 无操作日志审计
 - 无分页（演示数据量小）
 - 不做移动端完整适配（管理端仅桌面）
 - 管理员仅一个固定账号
-- 早高峰时段并发预约无锁保护（课堂数据量极低）
+- 早高峰时段并发预约无锁保护（课堂数据量级无需悲观锁）
 
 ---
 
