@@ -141,5 +141,6 @@ SeatBook/                              # ASP.NET Core MVC 项目根
 
 ## 仓库
 
-- 远端地址：（待补）
-- 首次提交记录：`git init → git add . → git commit -m "chore: 项目初始化，含文档与静态原型"`
+- 远端地址：`https://github.com/zuiniuniiu/123`
+- 首次提交记录：`e71268d chore: 项目初始化，含文档与静态原型`
+- 推送方式：执行 `.\git-push.ps1 "提交说明"` 一键 add → commit → push
