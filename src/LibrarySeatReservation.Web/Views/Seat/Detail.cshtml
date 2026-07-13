@@ -1,0 +1,81 @@
+@model SeatDetailViewModel
+@{ ViewData["Title"] = $"座位 {Model.Seat.SeatNumber}"; }
+
+<a asp-controller="Seat" asp-action="Index" class="text-decoration-none small">&larr; 返回座位列表</a>
+
+<div class="card mt-2 shadow-sm">
+    <div class="card-body">
+        <h4 class="fw-bold">@Model.Seat.SeatNumber</h4>
+        <table class="table table-borderless small mb-0">
+            <tr><td class="text-muted">区域</td><td>@Model.Seat.Area</td></tr>
+            <tr><td class="text-muted">楼层</td><td>@Model.Seat.Floor</td></tr>
+            <tr><td class="text-muted">描述</td><td>@Model.Seat.Description</td></tr>
+            <tr>
+                <td class="text-muted">状态</td>
+                <td>
+                    @switch (Model.Seat.Status)
+                    {
+                        case LibrarySeatReservation.Web.Models.Entities.SeatStatus.Available:
+                            <span class="badge bg-success">空闲</span>
+                            break;
+                        case LibrarySeatReservation.Web.Models.Entities.SeatStatus.Booked:
+                            <span class="badge bg-primary">已预约</span>
+                            break;
+                        case LibrarySeatReservation.Web.Models.Entities.SeatStatus.Maintenance:
+                            <span class="badge bg-secondary">维护中</span>
+                            break;
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@if (Model.Seat.Status == LibrarySeatReservation.Web.Models.Entities.SeatStatus.Available)
+{
+    <div class="card mt-3 shadow-sm">
+        <div class="card-body">
+            <h6 class="fw-semibold mb-3">预约操作</h6>
+            <div class="mb-3">
+                <label class="form-label small">日期</label>
+                <input type="date" class="form-control" value="@Model.SelectedDate.ToString("yyyy-MM-dd")"
+                       onchange="window.location.href='@Url.Action("Detail", "Seat", new { id = Model.Seat.Id, date = "__DATE__" })'.replace('__DATE__', this.value)" />
+            </div>
+            <form asp-controller="Reservation" asp-action="Create" method="get">
+                <input type="hidden" name="seatId" value="@Model.Seat.Id" />
+                <input type="hidden" name="ReservationDate" value="@Model.SelectedDate.ToString("yyyy-MM-dd")" />
+                <div class="mb-2">
+                    <label class="form-label small">时段</label>
+                    @foreach (var slot in Model.TimeSlots)
+                    {
+                        var isAvailable = Model.SlotAvailability.ContainsKey(slot) && Model.SlotAvailability[slot];
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="TimeSlot" value="@slot" id="slot_@slot"
+                                   disabled="@(!isAvailable)" required />
+                            <label class="form-check-label small" for="slot_@slot">
+                                @slot
+                                @if (isAvailable)
+                                {
+                                    <span class="badge bg-success">空闲</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">已满</span>
+                                }
+                            </label>
+                        </div>
+                    }
+                </div>
+                <button type="submit" class="btn btn-primary w-100">提交预约</button>
+            </form>
+        </div>
+    </div>
+}
+else if (Model.Seat.Status == LibrarySeatReservation.Web.Models.Entities.SeatStatus.Maintenance)
+{
+    <div class="alert alert-warning mt-3">该座位正在维护中，暂不可预约</div>
+}
+else
+{
+    <div class="alert alert-info mt-3">该座位已被预约</div>
+}

@@ -1,0 +1,66 @@
+@model SeatListViewModel
+@{ ViewData["Title"] = "座位列表"; }
+
+<h4 class="fw-semibold mb-3">座位列表</h4>
+
+<form method="get" class="row g-2 mb-3 align-items-end">
+    <div class="col-auto">
+        <label class="form-label small text-muted">区域</label>
+        <select name="area" class="form-select">
+            <option value="">全部区域</option>
+            @foreach (var a in Model.Areas)
+            {
+                <option value="@a" selected="@(Model.SelectedArea == a)">@a</option>
+            }
+        </select>
+    </div>
+    <div class="col-auto">
+        <label class="form-label small text-muted">楼层</label>
+        <select name="floor" class="form-select">
+            <option value="">全部楼层</option>
+            @foreach (var f in Model.Floors)
+            {
+                <option value="@f" selected="@(Model.SelectedFloor == f)">@f</option>
+            }
+        </select>
+    </div>
+    <div class="col-auto d-flex gap-1">
+        <button type="submit" class="btn btn-outline-primary btn-sm">筛选</button>
+        <a class="btn btn-outline-secondary btn-sm" asp-controller="Seat" asp-action="Index">重置</a>
+    </div>
+</form>
+
+<p class="text-muted small">共 @Model.Seats.Count 个座位</p>
+
+@if (Model.Seats.Any())
+{
+    <div class="row g-3">
+        @foreach (var seat in Model.Seats)
+        {
+            <div class="col-6 col-md-4 col-lg-3">
+                <a class="card h-100 shadow-sm text-decoration-none" asp-controller="Seat" asp-action="Detail" asp-route-id="@seat.Id">
+                    <div class="card-body">
+                        <h6 class="fw-bold mb-1">@seat.SeatNumber</h6>
+                        <p class="small text-muted mb-2">@seat.Area · @seat.Floor</p>
+                        @switch (seat.Status)
+                        {
+                            case LibrarySeatReservation.Web.Models.Entities.SeatStatus.Available:
+                                <span class="badge bg-success">空闲</span>
+                                break;
+                            case LibrarySeatReservation.Web.Models.Entities.SeatStatus.Booked:
+                                <span class="badge bg-primary">已预约</span>
+                                break;
+                            case LibrarySeatReservation.Web.Models.Entities.SeatStatus.Maintenance:
+                                <span class="badge bg-secondary">维护中</span>
+                                break;
+                        }
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">没有找到匹配的座位</div>
+}

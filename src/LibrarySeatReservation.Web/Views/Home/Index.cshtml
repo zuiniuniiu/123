@@ -1,0 +1,45 @@
+﻿@model HomeViewModel
+@{ ViewData["Title"] = "首页"; }
+
+<div class="text-center mb-4">
+    <h3 class="fw-bold" style="color:#2B6CB0;">欢迎使用座位预约系统</h3>
+    <p class="text-muted">快速找座、预约、管理，告别占座烦恼</p>
+</div>
+
+@if (Model.RecommendedSeats.Any())
+{
+    <h5 class="fw-semibold mb-3">推荐空闲座位</h5>
+    <div class="row g-3">
+        @foreach (var seat in Model.RecommendedSeats)
+        {
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-bold">@seat.SeatNumber</h5>
+                        <p class="card-text text-muted small">@seat.Area · @seat.Floor</p>
+                        <span class="badge bg-success">空闲</span>
+                        <div class="mt-2">
+                            <a class="btn btn-sm btn-outline-primary" asp-controller="Seat" asp-action="Detail" asp-route-id="@seat.Id">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="alert alert-info">当前没有空闲座位，请稍后再试</div>
+}
+
+<div class="mt-4 text-center">
+    <a class="btn btn-primary btn-lg" asp-controller="Seat" asp-action="Index">查看全部座位 →</a>
+</div>
+
+<section class="mt-5">
+    <h5 class="fw-semibold mb-3">快捷操作</h5>
+    <div class="d-flex gap-3 flex-wrap">
+        <a class="btn btn-outline-secondary" asp-controller="Reservation" asp-action="MyReservations">我的预约</a>
+        <a class="btn btn-outline-secondary" asp-controller="Admin" asp-action="Login">管理后台</a>
+    </div>
+</section>

@@ -1,0 +1,32 @@
+@model ReservationCreateViewModel
+@{ ViewData["Title"] = "提交预约"; }
+
+<h4 class="fw-semibold mb-3">确认预约信息</h4>
+
+<div class="card shadow-sm mb-3">
+    <div class="card-body">
+        <h5 class="fw-bold">@Model.SeatNumber</h5>
+        <p class="text-muted small">@Model.Area · @Model.Floor</p>
+        <p class="small">当前用户：@Model.UserName</p>
+    </div>
+</div>
+
+<form asp-controller="Reservation" asp-action="Create" method="post">
+    <input type="hidden" name="SeatId" value="@Model.SeatId" />
+    <div class="mb-2">
+        <label class="form-label small">日期</label>
+        <input type="date" name="ReservationDate" class="form-control" value="@Model.ReservationDate.ToString("yyyy-MM-dd")" />
+    </div>
+    <div class="mb-2">
+        <label class="form-label small">时段</label>
+        @foreach (var slot in Model.TimeSlots)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="TimeSlot" value="@slot" id="slot_@slot" required />
+                <label class="form-check-label small" for="slot_@slot">@slot</label>
+            </div>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary w-100">确认预约</button>
+    <a asp-controller="Seat" asp-action="Detail" asp-route-id="@Model.SeatId" class="btn btn-outline-secondary w-100 mt-2">取消</a>
+</form>
