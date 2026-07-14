@@ -1,10 +1,6 @@
-# LibrarySeatReservation - 图书馆座位预约系统
-
-## 项目简介
+# LibrarySeatReservation — 图书馆座位预约系统
 
 基于 ASP.NET Core MVC 的轻量图书馆座位预约系统。学生可在线浏览空闲座位、预约、管理预约；管理员可维护座位信息、查看预约情况和统计数据。
-
----
 
 ## 技术栈
 
@@ -16,44 +12,47 @@
 | ORM | EF Core 10 + SQL Server Provider |
 | 前端 | Bootstrap 5.3 (CDN) |
 | 认证 | Session（体验账号切换 + 管理端登录） |
+| 自动化测试 | Playwright 1.61 + Microsoft Edge (channel: msedge) |
 
----
+## 功能清单
 
-## 目录结构
+| 模块 | 功能 | 页面 |
+|------|------|------|
+| **用户端** | 查看推荐空闲座位、切换体验账号 | P01 首页 |
+| | 浏览全部座位、区域+楼层双筛选、重置 | P02 座位列表 |
+| | 查看座位详情、时段可用性、日期切换 | P03 座位详情 |
+| | 提交预约（含冲突检测、事务写入） | P04 预约提交 |
+| | 查看我的预约列表、取消预约 | P05 我的预约 |
+| **管理端** | 管理员登录 / 退出 | P06 管理员登录 |
+| | 全部预约列表、状态筛选、标记完成 | P07 预约管理 |
+| | 座位 CRUD、状态切换（维护↔恢复） | P08 座位管理 |
+| | 统计看板（座位总数/今日预约/本月预约+时段分布） | P09 统计页 |
+| **跨端** | 管理端操作 → 用户端实时回流 | — |
 
-```
-LibrarySeatReservation.sln
-├── src/
-│   └── LibrarySeatReservation.Web/
-│       ├── Controllers/         # 4 个 Controller
-│       ├── Models/
-│       │   ├── Entities/        # 4 Entity + 2 枚举
-│       │   └── ViewModels/      # 7 个 ViewModel
-│       ├── Services/            # 4 组接口+实现
-│       ├── Data/                # DbContext + DbInitializer
-│       ├── Migrations/          # EF Core 迁移
-│       ├── Views/               # 9 页面 + Layout
-│       ├── wwwroot/             # 静态资源
-│       ├── Program.cs           # 启动配置
-│       └── appsettings.json     # 连接字符串
-├── docs/                        # 项目文档（16 份）
-├── tests/                       # Playwright 自动测试（19 用例）
-├── scripts/                     # 烟雾测试脚本
-└── prototype/                   # 静态原型
-```
+## 页面清单
 
----
+| 编号 | 页面 | 路由 | 角色 |
+|------|------|------|------|
+| P01 | 首页 | `/` | 所有人 |
+| P02 | 座位列表 | `/Seat/Index` | 所有人 |
+| P03 | 座位详情 | `/Seat/Detail?id={id}` | 所有人 |
+| P04 | 预约提交 | `/Reservation/Create` | 所有人（需选座） |
+| P05 | 我的预约 | `/Reservation/MyReservations` | 所有人 |
+| P06 | 管理员登录 | `/Admin/Login` | 管理员 |
+| P07 | 预约管理 | `/Admin/Reservation` | 管理员 |
+| P08 | 座位管理 | `/Admin/Seat` | 管理员 |
+| P09 | 统计页 | `/Admin/Statistics` | 管理员 |
 
-## 运行前提
+## 运行步骤
+
+### 前提条件
 
 - Windows 10 / 11
 - .NET 8+ SDK（当前环境：.NET 10.0.201）
 - SQL Server LocalDB（随 Visual Studio 安装或单独安装）
 - Git
 
----
-
-## 运行步骤
+### 启动
 
 ```bash
 # 1. 还原依赖
@@ -65,91 +64,103 @@ dotnet run --project src\LibrarySeatReservation.Web
 
 启动后访问 `http://localhost:5000` 即可进入首页。
 
----
-
-## 当前阶段
-
-📌 **Sprint 4 ✅ 完成 — 联调、测试与缺陷闭环，`dotnet build` 通过，Playwright + msedge E2E 覆盖。**
-
-当前仓库包含：
-- ✅ 全部需求与设计文档（docs/01 ~ docs/16）
-- ✅ 9 页静态 HTML 原型（prototype/static-v1/）
-- ✅ 审计与复核报告（docs/11 ~ docs/16）
-- ✅ ASP.NET Core MVC 项目代码（src/LibrarySeatReservation.Web/）
-- ✅ 4 个 Entity + 2 个枚举
-- ✅ AppDbContext + DbInitializer（Seed Data）
-- ✅ 4 组 Service（接口 + 实现）
-- ✅ 4 个 Controller + 9 个 View
-- ✅ SQL Server LocalDB 自动建库（Code First Migration）
-- ✅ `dotnet build` 通过（0 错误 0 警告）
-- ✅ **Sprint 1 ✅ 用户端完整闭环**：首页→座位列表（区域+楼层筛选）→详情（时段可用性）→预约提交→我的预约→取消
-- ✅ P01 首页 — 推荐空闲座位 + 账号切换（下拉显示当前用户）
-- ✅ P02 座位列表 — 区域 + 楼层双筛选 + 重置 + 状态徽标
-- ✅ P03 座位详情 — 座位信息卡 + 日期切换 + 时段空闲/已满提示
-- ✅ P04 预约提交 — 预填参数 + 冲突检测 + 事务写入
-- ✅ P05 我的预约 — 列表（含已完成/已取消） + 取消确认
-- ✅ **Sprint 2 ✅ 管理端完整闭环**：登录→预约管理（状态筛选+标记完成）→座位管理（CRUD+状态切换）→统计（DB 实时数据）
-- ✅ `[AdminOnly]` 权限过滤器（`AdminOnlyAttribute`），未登录自动跳转 /Admin/Login
-- ✅ `_AdminLayout` 共享布局（深色导航 + container-fluid + 退出按钮）
-- ✅ **Sprint 3 ✅ 功能完善与体验优化**：CSRF 防护全覆盖、状态徽标统一、导航下拉完整、ModelState 验证、原型修复
-- ✅ **Sprint 4 ✅ 联调测试与缺陷闭环**：Playwright + msedge 测试框架、用户端/管理端 E2E、烟雾测试、兼容性测试、8 个 Bug 闭环
-
----
+> 数据库自动初始化详见 [`database/README.md`](database/README.md)。
 
 ## 数据库初始化方式
 
-启动时自动执行 EF Core 迁移（`DbContext.Migrate()`）+ 填充 Seed Data（`DbInitializer.Seed()`），无需手动执行 SQL。
+- **方式**：EF Core Code First 迁移
+- **自动执行**：启动时 `db.Database.Migrate()` 自动建库建表
+- **种子数据**：`DbInitializer.Seed()` 自动填充
+- **手动重建**：`dotnet ef database drop --project src\LibrarySeatReservation.Web` 后重新启动
 
-如需手动重建数据库：
-```bash
-dotnet ef database drop --project src\LibrarySeatReservation.Web
-dotnet ef database update --project src\LibrarySeatReservation.Web
+## 种子数据
+
+详见 [`database/README.md`](database/README.md) 完整说明。
+
+**体验账号**：张三（默认）/ 李四 / 王五（导航栏下拉切换，无密码）  
+**管理员账号**：`admin` / `admin123`（访问 `/Admin/Login`）
+
+**座位数据**：8 个座位分布在 3 个区域（三楼自习区、四楼安静区、五楼电子阅览）、3 个楼层（3F/4F/5F）
+
+**预约数据**：5 条预约覆盖已预约/已完成/已取消三种状态
+
+## 项目目录说明
+
+```
+LibrarySeatReservation/
+├── src/LibrarySeatReservation.Web/   # ASP.NET Core MVC 项目
+│   ├── Controllers/                  # 4 个 Controller（Home/Seat/Reservation/Admin）
+│   ├── Models/Entities/              # 4 个实体类 + 2 个枚举
+│   ├── Models/ViewModels/            # 7 个 ViewModel
+│   ├── Services/                     # 4 组接口+实现
+│   ├── Data/                         # DbContext + DbInitializer（种子数据）
+│   ├── Migrations/                   # EF Core 迁移文件
+│   ├── Filters/                      # AdminOnlyAttribute（权限过滤器）
+│   ├── Views/                        # 9 页面 + _Layout + _AdminLayout
+│   ├── Program.cs                    # 启动配置（DI + Session + Migrate + Seed）
+│   └── appsettings.json              # 连接字符串
+├── database/                         # 数据库初始化说明
+├── docs/                             # 17 份项目文档（需求→设计→开发→测试→交付）
+├── prototype/                        # 静态 HTML 原型（9 页）
+├── tests/                            # Playwright 自动测试
+├── scripts/                          # 烟雾测试脚本
+├── playwright.config.ts              # Playwright 配置（msedge channel）
+└── package.json                      # Node.js 依赖
 ```
 
----
+## 文档索引
+
+| 文档 | 内容 |
+|------|------|
+| `docs/01` | 项目立项单 |
+| `docs/02` | 需求分析与 MVP 确认 |
+| `docs/03` | PRD-Lite |
+| `docs/04` | 页面树与业务流程 |
+| `docs/05` | 页面卡与 UI 规范 |
+| `docs/06` | 静态原型与原型评审 |
+| `docs/07` | 系统设计说明 |
+| `docs/08` | 数据库设计 |
+| `docs/09` | 关键链路详细设计 |
+| `docs/10` | 开发准备与 Sprint 0 |
+| `docs/11` | 开发前一致性总审计 |
+| `docs/12` | 开发起步与骨架 |
+| `docs/13` | 用户端主链路开发 |
+| `docs/14` | 管理端与权限开发 |
+| `docs/15` | 功能完善与体验优化 |
+| `docs/16` | 联调测试与缺陷闭环 |
+| `docs/17` | 交付说明与项目复盘 |
+| `docs/项目任务板与迭代记录` | 全部 Sprint 任务跟踪 |
+
+## 自动化测试
+
+```bash
+# 安装 Playwright（首次）
+npm i -D @playwright/test
+
+# 启动应用（另一个终端）
+dotnet run --project src\LibrarySeatReservation.Web --urls http://localhost:5000
+
+# 运行 Playwright 自动点击测试（19 用例）
+npx playwright test tests/smoke.spec.ts --reporter=list
+
+# 运行脚本烟雾测试（应用需已在运行）
+node scripts/smoke.mjs
+```
+
+测试结果：Playwright 19/19 全部通过，脚本烟雾 7/7 全部通过（详见 `docs/16`）。
 
 ## 建议演示路径
 
 ```
-1. 启动：dotnet run --project src\LibrarySeatReservation.Web
-2. 访问 http://localhost:5000 → 首页 + 推荐空闲座位
-3. 导航栏切换账号（张三/李四/王五），下拉框显示当前用户
-4. 点击"查看全部座位" → P02 座位列表，测试区域+楼层筛选 + 重置
-5. 点击任意空闲座位 → P03 详情，查看时段空闲/已满状态
-6. 选择日期 + 空闲时段 → "提交预约" → P04 确认 → 跳转 P05 我的预约
-7. 在 P05 查看新预约，点击"取消"并确认 → 状态变为"已取消"
+用户端演示：
+  首页 → 切换账号 → 座位列表（筛选+重置）→ 查看空闲座位详情 → 选择时段提交预约 → 我的预约查看 → 取消预约
 
-**管理端演示路径：**
+管理端演示：
+  /Admin/Login → 预约列表（状态筛选）→ 标记完成 → 座位管理（CRUD+状态切换）→ 统计页面 → 退出
+
+跨端回流：
+  管理员标记完成/座位状态变更 → 用户端我的预约/座位列表可见变化
 ```
-1. 访问 /Admin/Login → 管理员登录
-2. 输入 admin / admin123 → 进入 P07 预约管理
-3. 按状态筛选预约，点击"标记完成"
-4. 导航到 P08 座位管理 → 新增/编辑/删除座位 + 切换状态
-5. 导航到 P09 统计页 → 查看汇总数据和时段分布
-6. 切换到用户端，确认管理端操作已回流（标记完成/座位状态变更可见）
-7. 点击"退出" → 退出登录
-```
-
----
-
-## 演示账号
-
-| 角色 | 账号 | 密码 | 说明 |
-|------|------|------|------|
-| 体验用户 | 张三 / 李四 / 王五 | 无密码 | 导航栏下拉切换 |
-| 管理员 | admin | admin123 | 访问 `/Admin/Login` |
-
----
-
-## 已实现范围
-
-- [x] **Sprint 0** — 项目骨架、Entity、DbContext、Seed Data、Service 骨架、Controller 骨架、dotnet build
-- [x] **Sprint 1** — 用户端 5 页面完整开发（首页、座位列表、座位详情、预约提交、我的预约 + 取消）
-- [x] **Sprint 2** — 管理端 4 页面（登录、预约管理、座位管理、统计页）+ 权限控制 + 布局统一 + 状态回流
-- [x] **Sprint 3** — 功能完善与体验优化（CSRF 防护全覆盖、P04/P06 ModelState 验证、空状态链接、radio 预选、状态筛选记忆、card hover、手机适配、Program.cs Migration 对齐）
-- [x] **Sprint 4** — 联调、测试与缺陷闭环（Playwright + msedge E2E 19 用例全部通过、脚本烟雾测试 7/7、兼容性测试、Bug 闭环）
-
----
 
 ## 已知限制
 
@@ -159,40 +170,9 @@ dotnet ef database update --project src\LibrarySeatReservation.Web
 - 不做移动端完整适配（管理端仅桌面）
 - 管理员仅一个固定账号
 - 早高峰时段并发预约无锁保护（课堂数据量级无需悲观锁）
-
----
-
-## 自动化测试
-
-### Playwright 自动点击烟雾测试（19 用例）
-
-```bash
-# 安装 Playwright（首次）
-npm i -D @playwright/test
-
-# 启动应用
-dotnet run --project src\LibrarySeatReservation.Web\LibrarySeatReservation.Web.csproj --urls http://localhost:5000
-
-# 运行测试
-npx playwright test tests/smoke.spec.ts --reporter=list
-```
-
-- 浏览器：`channel: 'msedge'` — 使用系统 Microsoft Edge Stable
-- 覆盖：用户端闭环、管理端闭环、跨端回流、权限控制
-- 结果：19/19 全部通过（见 docs/16）
-
-### 脚本烟雾测试
-
-```bash
-# 需要应用已在 http://localhost:5000 运行
-node scripts/smoke.mjs
-```
-
-- 检查 7 个关键端点：首页、P02~P09
-- 结果：7/7 全部通过
-
----
+- 浏览器兼容性以 Edge 为主，Chrome 手检正常，Firefox 未完整覆盖
 
 ## 仓库
 
 - 远端地址：`https://github.com/zuiniuniiu/123`
+- 最终 tag：`v1.0-final`
