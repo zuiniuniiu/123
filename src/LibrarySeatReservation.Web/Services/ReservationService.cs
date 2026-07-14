@@ -91,10 +91,7 @@ public class ReservationService : IReservationService
         var reservation = await _db.Reservations.FindAsync(reservationId);
         if (reservation == null || reservation.Status != ReservationStatus.Active) return false;
         reservation.Status = ReservationStatus.Completed;
-
-        var seat = await _db.Seats.FindAsync(reservation.SeatId);
-        if (seat != null) seat.Status = SeatStatus.Available;
-
+        // Seat.Status 保持 Booked（1），不释放座位 — 对齐 docs/08 §6.3
         await _db.SaveChangesAsync();
         return true;
     }

@@ -17,3 +17,8 @@ Thumbs.db
 # IDE
 .idea/
 *.swp
+
+# Playwright
+test-reports/
+node_modules/
+playwright-report/

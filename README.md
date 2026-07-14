@@ -67,12 +67,12 @@ dotnet run --project src\LibrarySeatReservation.Web
 
 ## 当前阶段
 
-📌 **Sprint 3 ✅ 完成 — 功能完善、异常处理与体验优化已闭环，`dotnet build` 通过。**
+📌 **Sprint 4 ✅ 完成 — 联调、测试与缺陷闭环，`dotnet build` 通过，Playwright + msedge E2E 覆盖。**
 
 当前仓库包含：
-- ✅ 全部需求与设计文档（docs/01 ~ docs/15）
+- ✅ 全部需求与设计文档（docs/01 ~ docs/16）
 - ✅ 9 页静态 HTML 原型（prototype/static-v1/）
-- ✅ 审计与复核报告（docs/11 ~ docs/15）
+- ✅ 审计与复核报告（docs/11 ~ docs/16）
 - ✅ ASP.NET Core MVC 项目代码（src/LibrarySeatReservation.Web/）
 - ✅ 4 个 Entity + 2 个枚举
 - ✅ AppDbContext + DbInitializer（Seed Data）
@@ -90,6 +90,7 @@ dotnet run --project src\LibrarySeatReservation.Web
 - ✅ `[AdminOnly]` 权限过滤器（`AdminOnlyAttribute`），未登录自动跳转 /Admin/Login
 - ✅ `_AdminLayout` 共享布局（深色导航 + container-fluid + 退出按钮）
 - ✅ **Sprint 3 ✅ 功能完善与体验优化**：CSRF 防护全覆盖、状态徽标统一、导航下拉完整、ModelState 验证、原型修复
+- ✅ **Sprint 4 ✅ 联调测试与缺陷闭环**：Playwright + msedge 测试框架、用户端/管理端 E2E、烟雾测试、兼容性测试、8 个 Bug 闭环
 
 ---
 
@@ -144,17 +145,36 @@ dotnet ef database update --project src\LibrarySeatReservation.Web
 - [x] **Sprint 1** — 用户端 5 页面完整开发（首页、座位列表、座位详情、预约提交、我的预约 + 取消）
 - [x] **Sprint 2** — 管理端 4 页面（登录、预约管理、座位管理、统计页）+ 权限控制 + 布局统一 + 状态回流
 - [x] **Sprint 3** — 功能完善与体验优化（CSRF 防护全覆盖、P04/P06 ModelState 验证、空状态链接、radio 预选、状态筛选记忆、card hover、手机适配、Program.cs Migration 对齐）
+- [x] **Sprint 4** — 联调、测试与缺陷闭环（Playwright + msedge E2E、烟雾测试、用户端/管理端自动化、兼容性测试、Bug 闭环）
 
 ---
 
 ## 已知限制
 
-- 密码明文存储（课堂项目，建议后续使用 ASP.NET Core Identity）
+- 密码明文存储（课堂项目）
 - 无操作日志审计
 - 无分页（演示数据量小）
 - 不做移动端完整适配（管理端仅桌面）
 - 管理员仅一个固定账号
-- 早高峰时段并发预约无锁保护（课堂数据量级无需悲观锁）
+- 早高峰时段并发预约无锁保护（课堂数据量低）
+
+---
+
+## 测试
+
+| 命令 | 说明 |
+|------|------|
+| `npm test` | 运行全部 Playwright 测试（默认 chromium） |
+| `npm run test:smoke` | 烟雾测试（dotnet build + 5 页面路由） |
+| `npm run test:user` | 用户端 E2E（P01→P02→P03→P04→P05） |
+| `npm run test:admin` | 管理端 E2E（P06→P07→P08→P09） |
+| `npm run test:sync` | 状态回流验证 |
+| `npm run test:edge` | 边界异常测试 |
+| `npm run test:compat` | 兼容性测试（chromium + firefox） |
+| `scripts\smoke-test.bat` | 一键烟雾测试脚本 |
+
+**运行前提**：需先 `dotnet run --project src\LibrarySeatReservation.Web` 启动项目。  
+**浏览器**：默认使用系统 Microsoft Edge（`channel: msedge`），无需额外下载。兼容性测试使用 Playwright 内置 Chromium 和 Firefox。
 
 ---
 

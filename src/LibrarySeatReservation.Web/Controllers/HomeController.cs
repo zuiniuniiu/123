@@ -28,6 +28,7 @@ public class HomeController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult SwitchUser(string userName)
     {
         HttpContext.Session.SetString("CurrentUser", userName);

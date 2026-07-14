@@ -31,6 +31,7 @@ public class AdminController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(AdminLoginViewModel model)
     {
+        if (!ModelState.IsValid) return View(model);
         if (await _adminService.LoginAsync(model.Username, model.Password))
         {
             HttpContext.Session.SetString("IsAdmin", "true");

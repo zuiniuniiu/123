@@ -31,7 +31,7 @@
                             @switch (r.Status)
                             {
                                 case LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Active: <span class="badge bg-primary">已预约</span> break;
-                                case LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Completed: <span class="badge bg-success">已完成</span> break;
+                                case LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Completed: <span class="badge bg-info">已完成</span> break;
                                 case LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Cancelled: <span class="badge bg-secondary">已取消</span> break;
                             }
                         </td>
@@ -39,6 +39,7 @@
                             @if (r.Status == LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Active)
                             {
                                 <form asp-controller="Admin" asp-action="MarkCompleted" method="post" style="display:inline;">
+                                    @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@r.Id" />
                                     <button class="btn btn-sm btn-outline-success">标记完成</button>
                                 </form>

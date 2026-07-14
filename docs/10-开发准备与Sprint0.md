@@ -96,7 +96,7 @@ git commit -m "chore: 项目初始化，含文档与静态原型"
 # git push -u origin main
 ```
 
-> 当前仓库暂未关联远端。如使用 GitHub / Gitee，请在创建远端仓库后执行上述推送命令。
+> 当前仓库已关联远端（地址见 README §144），推送命令参考 §5 中的 git push 操作。
 
 ## 7. 已知假设与约束
 

@@ -13,6 +13,7 @@
 
 <form asp-controller="Reservation" asp-action="Create" method="post">
     @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
     <input type="hidden" name="SeatId" value="@Model.SeatId" />
     <div class="mb-2">
         <label class="form-label small">日期</label>

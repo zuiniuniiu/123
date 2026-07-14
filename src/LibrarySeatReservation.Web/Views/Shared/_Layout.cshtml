@@ -16,6 +16,7 @@
                 <a class="nav-link text-white" asp-controller="Reservation" asp-action="MyReservations">我的预约</a>
                 <span class="text-white small">当前用户：</span>
                 <form asp-controller="Home" asp-action="SwitchUser" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
                     <select name="userName" class="form-select form-select-sm d-inline" style="width:auto;background:rgba(255,255,255,0.2);color:#fff;border:none;" onchange="this.form.submit()">
                         <option value="张三" selected="@(ViewBag.CurrentUser == "张三")">张三</option>
                         <option value="李四" selected="@(ViewBag.CurrentUser == "李四")">李四</option>

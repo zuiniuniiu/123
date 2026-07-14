@@ -15,6 +15,7 @@ public class SeatController : Controller
 
     public async Task<IActionResult> Index(string? area, string? floor)
     {
+        ViewBag.CurrentUser = HttpContext.Session.GetString("CurrentUser") ?? "张三";
         var seats = await _seatService.GetAllAsync(area, floor);
         var areas = await _seatService.GetAreasAsync();
         var floors = await _seatService.GetFloorsAsync();

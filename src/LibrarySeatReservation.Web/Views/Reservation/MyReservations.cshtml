@@ -26,7 +26,7 @@
                                     <span class="badge bg-primary">已预约</span>
                                     break;
                                 case LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Completed:
-                                    <span class="badge bg-success">已完成</span>
+                                    <span class="badge bg-info">已完成</span>
                                     break;
                                 case LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Cancelled:
                                     <span class="badge bg-secondary">已取消</span>
@@ -37,6 +37,7 @@
                             @if (r.Status == LibrarySeatReservation.Web.Models.Entities.ReservationStatus.Active)
                             {
                                 <form asp-controller="Reservation" asp-action="Cancel" method="post" onsubmit="return confirm('确定取消该预约？')">
+                                    @Html.AntiForgeryToken()
                                     <input type="hidden" name="id" value="@r.Id" />
                                     <button class="btn btn-sm btn-outline-danger">取消</button>
                                 </form>

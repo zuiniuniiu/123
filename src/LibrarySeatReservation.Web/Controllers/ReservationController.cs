@@ -48,6 +48,11 @@ public class ReservationController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ReservationCreateViewModel model)
     {
+        if (!ModelState.IsValid)
+        {
+            model.TimeSlots = new List<string> { "08:00-12:00", "14:00-18:00", "18:00-21:00" };
+            return View(model);
+        }
         var userName = HttpContext.Session.GetString("CurrentUser") ?? "张三";
         ViewBag.CurrentUser = userName;
         var (success, message) = await _reservationService.CreateAsync(model.SeatId, userName, model.ReservationDate, model.TimeSlot);
