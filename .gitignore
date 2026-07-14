@@ -22,3 +22,8 @@ Thumbs.db
 test-reports/
 node_modules/
 playwright-report/
+
+# Node.js
+node_modules/
+test-results/
+test-results.json

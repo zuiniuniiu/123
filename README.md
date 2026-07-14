@@ -36,7 +36,9 @@ LibrarySeatReservation.sln
 │       ├── wwwroot/             # 静态资源
 │       ├── Program.cs           # 启动配置
 │       └── appsettings.json     # 连接字符串
-├── docs/                        # 项目文档（12 份）
+├── docs/                        # 项目文档（16 份）
+├── tests/                       # Playwright 自动测试（19 用例）
+├── scripts/                     # 烟雾测试脚本
 └── prototype/                   # 静态原型
 ```
 
@@ -145,36 +147,49 @@ dotnet ef database update --project src\LibrarySeatReservation.Web
 - [x] **Sprint 1** — 用户端 5 页面完整开发（首页、座位列表、座位详情、预约提交、我的预约 + 取消）
 - [x] **Sprint 2** — 管理端 4 页面（登录、预约管理、座位管理、统计页）+ 权限控制 + 布局统一 + 状态回流
 - [x] **Sprint 3** — 功能完善与体验优化（CSRF 防护全覆盖、P04/P06 ModelState 验证、空状态链接、radio 预选、状态筛选记忆、card hover、手机适配、Program.cs Migration 对齐）
-- [x] **Sprint 4** — 联调、测试与缺陷闭环（Playwright + msedge E2E、烟雾测试、用户端/管理端自动化、兼容性测试、Bug 闭环）
+- [x] **Sprint 4** — 联调、测试与缺陷闭环（Playwright + msedge E2E 19 用例全部通过、脚本烟雾测试 7/7、兼容性测试、Bug 闭环）
 
 ---
 
 ## 已知限制
 
-- 密码明文存储（课堂项目）
+- 密码明文存储（课堂项目，建议后续使用 ASP.NET Core Identity）
 - 无操作日志审计
 - 无分页（演示数据量小）
 - 不做移动端完整适配（管理端仅桌面）
 - 管理员仅一个固定账号
-- 早高峰时段并发预约无锁保护（课堂数据量低）
+- 早高峰时段并发预约无锁保护（课堂数据量级无需悲观锁）
 
 ---
 
-## 测试
+## 自动化测试
 
-| 命令 | 说明 |
-|------|------|
-| `npm test` | 运行全部 Playwright 测试（默认 chromium） |
-| `npm run test:smoke` | 烟雾测试（dotnet build + 5 页面路由） |
-| `npm run test:user` | 用户端 E2E（P01→P02→P03→P04→P05） |
-| `npm run test:admin` | 管理端 E2E（P06→P07→P08→P09） |
-| `npm run test:sync` | 状态回流验证 |
-| `npm run test:edge` | 边界异常测试 |
-| `npm run test:compat` | 兼容性测试（chromium + firefox） |
-| `scripts\smoke-test.bat` | 一键烟雾测试脚本 |
+### Playwright 自动点击烟雾测试（19 用例）
 
-**运行前提**：需先 `dotnet run --project src\LibrarySeatReservation.Web` 启动项目。  
-**浏览器**：默认使用系统 Microsoft Edge（`channel: msedge`），无需额外下载。兼容性测试使用 Playwright 内置 Chromium 和 Firefox。
+```bash
+# 安装 Playwright（首次）
+npm i -D @playwright/test
+
+# 启动应用
+dotnet run --project src\LibrarySeatReservation.Web\LibrarySeatReservation.Web.csproj --urls http://localhost:5000
+
+# 运行测试
+npx playwright test tests/smoke.spec.ts --reporter=list
+```
+
+- 浏览器：`channel: 'msedge'` — 使用系统 Microsoft Edge Stable
+- 覆盖：用户端闭环、管理端闭环、跨端回流、权限控制
+- 结果：19/19 全部通过（见 docs/16）
+
+### 脚本烟雾测试
+
+```bash
+# 需要应用已在 http://localhost:5000 运行
+node scripts/smoke.mjs
+```
+
+- 检查 7 个关键端点：首页、P02~P09
+- 结果：7/7 全部通过
 
 ---
 

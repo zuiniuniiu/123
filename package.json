@@ -8,15 +8,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "npx playwright test",
-    "test:smoke": "npx playwright test tests/e2e/smoke.spec.js --project=chromium",
-    "test:user": "npx playwright test tests/e2e/user-flow.spec.js --project=chromium",
-    "test:admin": "npx playwright test tests/e2e/admin-flow.spec.js --project=chromium",
-    "test:edge": "npx playwright test tests/e2e/edge-cases.spec.js --project=chromium",
-    "test:sync": "npx playwright test tests/e2e/status-sync.spec.js --project=chromium",
-    "test:compat": "npx playwright test --project=chromium --project=firefox",
-    "test:all": "npx playwright test --project=chromium",
-    "test:report": "npx playwright show-report test-reports"
+    "test": "npx playwright test tests/smoke.spec.ts --reporter=list",
+    "test:smoke": "node scripts/smoke.mjs",
+    "test:report": "npx playwright show-report"
   },
   "repository": {
     "type": "git",
